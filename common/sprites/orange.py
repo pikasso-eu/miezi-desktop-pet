@@ -11,7 +11,8 @@ CHARACTER = {'label': 'Orange Katze',
  'jump': ['walk0'],
  'drag': ['walk1'],
  'hop': 'walk0',
- 'extras': {}}
+ 'extras': {},
+ 'fur': ['o', 'h', 'd', 'D']}
 
 SETS = {
     'std': {

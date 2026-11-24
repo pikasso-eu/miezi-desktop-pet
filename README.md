@@ -12,7 +12,13 @@ pyobjc für Fenstererkennung und Rendering, siehe [macos/README.md](macos/README
 |---|---|
 | Linksklick | streicheln (Herz, kleiner Hüpfer) |
 | Ziehen | hochheben und absetzen – sie hüpft danach zurück auf ihren Platz |
-| Rechtsklick | Menü: Browser-Modus (Windows: Edge; macOS: Safari/Chrome/Edge) oder Monitor, **Figur**, Größe, Schlafen legen, **Autostart**, Beenden |
+| Rechtsklick | Menü: Browser-Modus (Windows: Edge; macOS: Safari/Chrome/Edge) oder Monitor, **Figur**, **Farbe**, Größe, Schlafen legen, **Autostart**, Beenden |
+
+Unter **Farbe** gibt es feste Fellfarben (Original, Grau, Rot, Creme, Weiß, Blaugrau,
+Braun) und „Eigene Farbe …“ mit Farbwähler. Augen, Nase, Herz und Zzz behalten ihre
+Farbe. Umfärben lassen sich Figuren mit benannten Fellfarben (`"fur"` im
+`CHARACTER`, z. B. die orange Katze) und überwiegend dunkle Figuren wie die schwarze
+Katze; bei anderen ist der Menüpunkt ausgegraut.
 
 Im Browser-Modus läuft sie auf der Oberkante des vordersten Browser-Fensters (bei
 maximiertem Fenster in der Tab-Leiste, die Fensterknöpfe bleiben frei). Unter Windows
@@ -72,6 +78,7 @@ Die App braucht zur Laufzeit nur `common/` und ihren Plattformordner – keine P
 python windows\miezi.py                      # direkt aus dem Quelltext
 windows\build.cmd                            # baut windows\Miezi.exe (PyInstaller wird bei Bedarf installiert)
 python windows\miezi.py --preview bild.png schwarz mittel   # Vorschaubild einiger Posen
+python windows\miezi.py --preview bild.png schwarz mittel #8c8c94   # dasselbe in einer Fellfarbe
 ```
 
 Die EXE ist eigenständig, auf dem Ziel-PC wird kein Python gebraucht.

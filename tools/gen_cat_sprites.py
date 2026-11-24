@@ -26,6 +26,7 @@ CHARACTER = {
     "walk": ["walk0", "walk1", "walk2", "walk3"], "walk_ticks": 2,
     "sit": ["sit"], "blink": "blink", "sleep": ["sleep0", "sleep1"],
     "jump": ["walk0"], "drag": ["walk1"], "hop": "walk0", "extras": {},
+    "fur": ["o", "h", "d", "D"],  # Fellfarben fuer das Menue "Farbe" (erste = Grundton)
 }
 
 

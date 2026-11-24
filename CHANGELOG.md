@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-11-24 (12)
+- Neues Menü **Farbe** (Windows und macOS): feste Fellfarben (Original, Grau,
+  Rot, Creme, Weiss, Blaugrau, Braun) und „Eigene Farbe …“ über den
+  Farbwähler von tkinter. Gespeichert als `"color"` in `settings.json`
+  (`null` = Original), beim Laden geprüft.
+- `common/characters.py`: `recolor()` färbt nur die Palette um. Figuren mit
+  `"fur"` im `CHARACTER` (orange Katze) bekommen die Zielfarbe mit der
+  relativen Helligkeit ihrer Fellfarben. Dunkle Figuren ohne Farbnamen
+  (schwarze Katze) bekommen einen Helligkeitsverlauf der Zielfarbe; der helle
+  Rand wird zur dunklen Kontur, dunkle Pixel neben den Augen bleiben als
+  Pupillen dunkel. Andere Figuren: Menü ausgegraut.
+- `tools/gen_cat_sprites.py` schreibt `"fur"` für die orange Katze,
+  `common/sprites/orange.py` neu erzeugt (nur dieses Feld neu).
+- `--preview` nimmt eine Farbe als optionales viertes Argument.
+
 ## 2026-11-24 (11)
 - `error.log` wird gedrosselt: dieselbe Meldung höchstens einmal pro Minute,
   mit Zähler der unterdrückten Wiederholungen. Vorher schrieb ein dauerhafter

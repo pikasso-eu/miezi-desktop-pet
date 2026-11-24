@@ -19,13 +19,15 @@ import math
 import os
 import plistlib
 import random
+import re
 import sys
 import time
 import tkinter as tk
+from tkinter import colorchooser
 
 # Figuren und Bild-Zusammenbau sind plattformunabhaengig und liegen in ../common
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "common"))
-from characters import CHARACTERS, compose, grid_to_photo  # noqa: E402
+from characters import CHARACTERS, COLORS, can_recolor, compose, grid_to_photo, recolor  # noqa: E402
 
 try:
     import AppKit
@@ -103,7 +105,8 @@ def browser_frontmost(app):
 # --------------------------------------------------------------------------- Einstellungen
 SETTINGS_DIR = os.path.expanduser("~/Library/Application Support/Miezi")
 SETTINGS_FILE = os.path.join(SETTINGS_DIR, "settings.json")
-DEFAULTS = {"mode": "edge", "monitor": 1, "size": "mittel", "char": "schwarz", "browser": BROWSER_DEFAULT}
+DEFAULTS = {"mode": "edge", "monitor": 1, "size": "mittel", "char": "schwarz", "color": None,
+            "browser": BROWSER_DEFAULT}
 
 
 def load_settings():
@@ -124,7 +127,15 @@ def load_settings():
         s["size"] = DEFAULTS["size"]
     if not isinstance(s["char"], str):
         s["char"] = DEFAULTS["char"]  # unbekannte Figur-IDs faengt apply_size ab
+    s["color"] = valid_color(s["color"])
     return s  # "browser" prueft Pet.__init__ gegen BROWSER_CHOICES
+
+
+def valid_color(color):
+    """"#rrggbb" (klein geschrieben) oder None = Originalfarben."""
+    if isinstance(color, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", color):
+        return color.lower()
+    return None
 
 
 def save_settings(s):
@@ -282,6 +293,7 @@ class Pet:
         self.browser_var = tk.StringVar(value=self.browser)
         self.size_var = tk.StringVar(value=self.settings["size"])
         self.char_var = tk.StringVar(value=self.settings["char"])
+        self.color_var = tk.StringVar(value=self.settings["color"] or "")
         self.autostart_var = tk.BooleanVar()
         cmd = autostart_get()
         if cmd and getattr(sys, "frozen", False) and cmd != autostart_command():
@@ -430,7 +442,7 @@ class Pet:
             self.settings["char"] = DEFAULTS["char"] if DEFAULTS["char"] in CHARACTERS else next(iter(CHARACTERS))
         self.char = CHARACTERS[self.settings["char"]]
         look_name, zoom = self.char["sizes"].get(self.settings["size"], self.char["sizes"]["mittel"])
-        self.look = self.char["looks"][look_name]
+        self.look = recolor(self.char, self.char["looks"][look_name], self.settings["color"])
         self.scale = max(1, round(zoom))  # Punkte = Tk-Pixel, kein DPI-Faktor wie unter Windows
         self.frames.clear()
         self.w = self.look["W"] * self.scale
@@ -764,6 +776,18 @@ class Pet:
             chars.add_radiobutton(label=conf["label"], variable=self.char_var, value=c,
                                   command=lambda c=c: self.set_char(c))
         m.add_cascade(label="Figur", menu=chars)
+        colors = tk.Menu(m, tearoff=0)
+        self.color_var.set(self.settings["color"] or "")
+        for label, color in COLORS:
+            colors.add_radiobutton(label=label, variable=self.color_var, value=color or "",
+                                   command=lambda c=color: self.set_color(c))
+        if self.settings["color"] and self.settings["color"] not in dict(COLORS).values():
+            colors.add_radiobutton(label=f"Eigene ({self.settings['color']})", variable=self.color_var,
+                                   value=self.settings["color"])
+        colors.add_separator()
+        colors.add_command(label="Eigene Farbe ...", command=self.pick_color)
+        m.add_cascade(label="Farbe", menu=colors,
+                      state="normal" if can_recolor(self.char) else "disabled")
         sizes = tk.Menu(m, tearoff=0)
         for s, label in (("klein", "Klein"), ("mittel", "Mittel"), ("gross", "Gross")):
             sizes.add_radiobutton(label=label, variable=self.size_var, value=s,
@@ -810,18 +834,30 @@ class Pet:
         self.apply_size()
         self.y += old_h - self.h
 
+    def set_color(self, color):
+        self.settings["color"] = valid_color(color)
+        save_settings(self.settings)
+        self.color_var.set(self.settings["color"] or "")
+        self.apply_size()
+
+    def pick_color(self):
+        _rgb, color = colorchooser.askcolor(color=self.settings["color"] or "#8c8c94",
+                                            parent=self.root, title="Fellfarbe")
+        if color:
+            self.set_color(color)
+
     def run(self):
         self.root.mainloop()
 
 
-def preview(path, char=DEFAULTS["char"], size="mittel"):
-    """Vorschaubild einiger Posen: miezi_mac.py --preview datei.png [figur-id] [klein|mittel|gross]
+def preview(path, char=DEFAULTS["char"], size="mittel", color=None):
+    """Vorschaubild einiger Posen: miezi_mac.py --preview datei.png [figur-id] [klein|mittel|gross] [#rrggbb]
     (figur-id = Dateiname in common/sprites, z.B. schwarz oder orange)"""
     root = tk.Tk()
     root.withdraw()
     ch = CHARACTERS[char]
     look_name, _ = ch["sizes"][size]
-    look = ch["looks"][look_name]
+    look = recolor(ch, ch["looks"][look_name], valid_color(color))
     walk = (ch["walk"] * 2)[:4]
     shots = [(n, False, None, 0) for n in walk] + [
         (ch["sit"][0], False, "heart", 0), (ch["blink"], False, None, 0),
@@ -843,7 +879,7 @@ def preview(path, char=DEFAULTS["char"], size="mittel"):
 
 if __name__ == "__main__":
     if len(sys.argv) > 2 and sys.argv[1] == "--preview":
-        preview(*sys.argv[2:5])
+        preview(*sys.argv[2:6])
         sys.exit(0)
     single_instance()
     Pet().run()
