@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-24 (13)
+- macOS: Rechtsklick öffnet das Menü wieder – Tcl/Tk 9 hat die Knöpfe auf dem Mac
+  vereinheitlicht (TIP #474: rechts ist jetzt Button 3, vorher Button 2). Beide
+  Knöpfe sind jetzt gebunden, außerdem weiterhin Ctrl+Linksklick. Mit der
+  Magic Mouse funktioniert der Rechtsklick (Sekundärklick) damit direkt.
+
 ## 2026-11-24 (12)
 - Neues Menü **Farbe** (Windows und macOS): feste Fellfarben (Original, Grau,
   Rot, Creme, Weiss, Blaugrau, Braun) und „Eigene Farbe …“ über den

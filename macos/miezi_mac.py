@@ -285,7 +285,10 @@ class Pet:
             widget.bind("<ButtonPress-1>", self.on_press)
             widget.bind("<B1-Motion>", self.on_motion)
             widget.bind("<ButtonRelease-1>", self.on_release)
-            widget.bind("<Button-2>", self.on_menu)  # Rechtsklick ist auf dem Mac Button 2
+            # Rechtsklick: bis Tk 8.6 war das auf dem Mac Button 2; seit Tk 9 (TIP #474)
+            # auch hier Button 3. Beide gebunden, damit beide Tcl/Tk-Staende funktionieren.
+            widget.bind("<Button-2>", self.on_menu)
+            widget.bind("<Button-3>", self.on_menu)
             widget.bind("<Control-Button-1>", self.on_menu)
 
         self.menu = tk.Menu(self.root, tearoff=0)
