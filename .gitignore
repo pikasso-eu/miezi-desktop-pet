@@ -1,0 +1,16 @@
+# Build-Ergebnisse (mit windows\build.cmd bzw. macOS-Build jederzeit neu erzeugbar)
+Miezi.exe
+*.app
+dist/
+build/
+*.spec
+!macos/*.spec
+__pycache__/
+.venv/
+
+# Betriebssystem- und Editor-Reste
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

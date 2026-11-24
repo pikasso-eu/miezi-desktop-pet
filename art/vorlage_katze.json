@@ -1,0 +1,24 @@
+{
+  "name": "Schwarze Katze (Vorlage)",
+  "cell": [62, 47],
+  "pixel": 4,
+  "order": 90,
+  "walk_ticks": 3,
+  "sizes": {"klein": 1, "mittel": 1, "gross": 2},
+  "small_from_half": true,
+  "hop": "sit1",
+  "rim": null,
+  "rows": [
+    {"anim": "walk", "frames": 6},
+    {"anim": "sit", "frames": 2},
+    {"anim": "blink", "frames": 1},
+    {"anim": "sleep", "frames": 2},
+    {"anim": "jump", "frames": 3},
+    {"anim": "drag", "frames": 2},
+    {"anim": "fx", "frames": ["heart", "z"]},
+    {"anim": "extra", "name": "putzen", "frames": 2, "seq": [[1, 10], [2, 6], [1, 4], [2, 6], [1, 4], [2, 6], [1, 10]]},
+    {"anim": "extra", "name": "strecken", "frames": 2, "seq": [[1, 12], [2, 30], [1, 10]]},
+    {"anim": "extra", "name": "gaehnen", "frames": 2, "seq": [[1, 6], [2, 20], [1, 6]]},
+    {"anim": "extra", "name": "umdrehen", "frames": 2, "seq": [[1, 8], [2, 40], [1, 8]]}
+  ]
+}

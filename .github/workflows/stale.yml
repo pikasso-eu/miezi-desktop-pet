@@ -1,0 +1,48 @@
+name: Zurück ohne Rückmeldung
+
+# Schließt inaktive Issues und PRs automatisch, damit nichts unbeantwortet
+# „offen“ herumliegt. Ein geschlossener Beitrag ist keine Ablehnung des
+# Themas – Details stehen in CONTRIBUTING.md.
+
+on:
+  schedule:
+    - cron: "15 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          # Issues: 30 Tage ohne Aktivität → Hinweis, +14 Tage → schließen
+          days-before-issue-stale: 30
+          days-before-issue-close: 14
+          stale-issue-message: >-
+            Dieses Issue liegt seit 30 Tagen ohne Reaktion. Wenn es noch
+            aktuell ist, schreibt einen kurzen Kommentar – sonst wird es in
+            14 Tagen automatisch geschlossen.
+          close-issue-message: >-
+            Geschlossen, weil nach weiteren 14 Tagen keine Rückmeldung kam.
+            Das ist keine Ablehnung: Wenn das Thema noch wichtig ist, bitte
+            ein neues Issue eröffnen.
+          # Pull Requests: 21 Tage ohne Aktivität → Hinweis, +14 Tage → schließen
+          days-before-pr-stale: 21
+          days-before-pr-close: 14
+          stale-pr-message: >-
+            Dieser Pull Request liegt seit 21 Tagen ohne Aktivität. Wenn du
+            weiterarbeiten möchtest, schreibe einen kurzen Kommentar – sonst
+            wird er in 14 Tagen automatisch geschlossen.
+          close-pr-message: >-
+            Geschlossen, weil nach weiteren 14 Tagen keine Aktivität kam.
+            Das ist keine Bewertung der Arbeit: Für dasselbe Anliegen zuerst
+            ein Issue eröffnen und dort abstimmen (siehe CONTRIBUTING.md).
+          close-issue-reason: not_planned
+          close-reason: not_planned
+          # Labels, die vor dem automatischen Schließen schützen
+          exempt-issue-labels: pinned,security
+          exempt-pr-labels: pinned

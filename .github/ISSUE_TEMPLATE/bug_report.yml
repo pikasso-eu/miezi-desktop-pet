@@ -1,0 +1,60 @@
+name: 🐞 Fehler melden
+description: Etwas läuft nicht so, wie es soll
+title: "Kurzbeschreibung des Fehlers"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Melden! Je genauer die Schritte, desto schneller ist der
+        Fehler nachvollziehbar. Bitte ein Fehler pro Issue.
+  - type: dropdown
+    id: os
+    attributes:
+      label: Betriebssystem
+      options: [Windows, macOS, Beide]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Was passiert – und was sollte passieren?
+      placeholder: |
+        Ist: Die Katze verschwindet im Browser-Modus hinter der Tab-Leiste.
+        Soll: Sie läuft sichtbar auf der Oberkante.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritt-für-Schritt zum Nachbauen
+      placeholder: |
+        1. `python windows\miezi.py` starten
+        2. Rechtsklick → Browser-Modus
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version / Stand
+      placeholder: git-Commit oder Datum des EXE-/App-Baus, Python-Version, Browser …
+    validations:
+      required: false
+  - type: textarea
+    id: log
+    attributes:
+      label: Inhalt des error.log (optional)
+      description: >-
+        Liegt neben den Einstellungen: `%APPDATA%\Miezi\error.log` bzw.
+        `~/Library/Application Support/Miezi/error.log`. Nur relevante Zeilen,
+        gern als Auszug.
+      render: text
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        **Hinweis:** Issues und PRs werden bei Freizeit gelesen; eine Antwort
+        ist nicht zugesagt. Inaktive Beiträge werden nach einer Frist
+        automatisch geschlossen (siehe CONTRIBUTING.md).

@@ -1,0 +1,38 @@
+name: 💡 Idee oder neue Funktion vorschlagen
+description: Neues Verhalten, neue Tier-Art oder Verbesserung
+title: "Kurzbeschreibung der Idee"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Bitte hier beginnen, nicht mit einem PR.** Nur was hier besprochen
+        und freigegeben wurde, hat gute Chancen als Pull Request.
+        Regeln und Grenzen des Projekts stehen in CONTRIBUTING.md.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Was stört dich / was vermisst du?
+      placeholder: Die Katze kann noch nicht …
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Dein Vorschlag
+      description: Wie soll es funktionieren? Bei neuen Tieren gern eine grobe
+        Skizze oder ein Beispiel-Sheet anhängen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Gibt es einen einfachen Workaround?
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        **Hinweis:** Eine Antwort ist nicht zugesagt; Schweigen ist keine
+        Zustimmung. Inaktive Issues werden nach einer Frist automatisch
+        geschlossen.
