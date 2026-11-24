@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-24 (10)
+- Release-Workflow `.github/workflows/release.yml`: ein Tag (`v1.0.0`) genügt –
+  GitHub-Runner bauen `windows/build.cmd` (EXE) und `macos/build.sh`
+  (App, als ZIP via `ditto`) auf `windows-latest`, `macos-14` (arm64) und
+  `macos-13` (x86_64) und hängen die drei Dateien an den GitHub-Release.
+  Hinweis auf SmartScreen/Gatekeeper im Release-Text.
+- README um Abschnitt „Fertige Programme (Releases)“ ergänzt.
+
 ## 2026-11-24 (9)
 - Neue Programm-Icons: `tools/make_icon.py` rendert die Sitzpose der schwarzen
   Katze aus `common/sprites/schwarz.py` und schreibt `art/miezi.ico`

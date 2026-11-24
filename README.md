@@ -90,6 +90,24 @@ open macos/dist/Miezi.app                        # oder per Doppelklick
 Details zu Verhalten, Vollbild-Grenze, Gatekeeper und Autostart:
 [macos/README.md](macos/README.md).
 
+## Fertige Programme (Releases)
+
+Fertige Builds gibt es auf der [Releases-Seite](../../releases): `Miezi.exe`
+(Windows) und `Miezi-macOS-arm64.zip` / `Miezi-macOS-x86_64.zip` (Apple
+Silicon / Intel). Eine neue Version erscheint von allein, sobald ein
+Versions-Tag gepusht wird – die GitHub-Runner bauen auf echten Windows- und
+Mac-Systemen mit denselben Skripten wie oben:
+
+```
+git tag v1.0.0
+git push origin v1.0.0        # → Actions bauen EXE + ZIPs und hängen sie an den Release
+```
+
+Die Dateien sind **unsigniert**: Windows-SmartScreen und macOS-Gatekeeper
+zeigen beim ersten Start einen Warnhinweis (Windows: „Weitere Informationen →
+Trotzdem ausführen“, macOS: Rechtsklick → Öffnen). Das ist bei Projekten
+ohne Zertifikat normal und im Release-Text dokumentiert.
+
 ## Neues Tier einbinden
 
 ### 1. Sheet malen (oder generieren und aufräumen)
