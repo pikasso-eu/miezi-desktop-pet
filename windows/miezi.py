@@ -181,9 +181,20 @@ def load_settings():
     s = dict(DEFAULTS)
     try:
         with open(SETTINGS_FILE, encoding="utf-8") as f:
-            s.update(json.load(f))
+            data = json.load(f)
+        if isinstance(data, dict):
+            s.update(data)
     except Exception:
         pass
+    # Von Hand bearbeitete oder kaputte Werte nicht bis in die Tick-Schleife durchlassen
+    if s["mode"] not in ("edge", "monitor"):
+        s["mode"] = DEFAULTS["mode"]
+    if type(s["monitor"]) is not int or s["monitor"] < 0:
+        s["monitor"] = DEFAULTS["monitor"]
+    if s["size"] not in ("klein", "mittel", "gross"):
+        s["size"] = DEFAULTS["size"]
+    if not isinstance(s["char"], str):
+        s["char"] = DEFAULTS["char"]  # unbekannte Figur-IDs faengt apply_size ab
     return s
 
 
@@ -233,11 +244,37 @@ def autostart_set(on):
         log_error(exc)
 
 
+LOG_REPEAT_S = 60  # dieselbe Meldung hoechstens einmal pro Minute
+LOG_MAX_BYTES = 512 * 1024  # darueber wird error.log nach error.log.1 verschoben
+_log_last = {}  # Meldung -> Zeitpunkt der letzten Ausgabe
+_log_skipped = {}  # Meldung -> seitdem unterdrueckt
+
+
 def log_error(exc):
+    """Fehler ins error.log. Ein dauerhafter Fehler in der Tick-Schleife kaeme sonst alle
+    50 ms - Wiederholungen werden gezaehlt und nur einmal pro Minute geschrieben."""
+    msg = repr(exc)
+    now = time.monotonic()
+    last = _log_last.get(msg)
+    if last is not None and now - last < LOG_REPEAT_S:
+        _log_skipped[msg] = _log_skipped.get(msg, 0) + 1
+        return
+    if len(_log_last) > 100:
+        _log_last.clear()
+        _log_skipped.clear()
+    _log_last[msg] = now
+    skipped = _log_skipped.pop(msg, 0)
     try:
         os.makedirs(SETTINGS_DIR, exist_ok=True)
-        with open(os.path.join(SETTINGS_DIR, "error.log"), "a", encoding="utf-8") as f:
-            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} {exc!r}\n")
+        path = os.path.join(SETTINGS_DIR, "error.log")
+        try:
+            if os.path.getsize(path) > LOG_MAX_BYTES:
+                os.replace(path, path + ".1")
+        except OSError:
+            pass
+        extra = f" (seit der letzten Meldung {skipped}x wiederholt)" if skipped else ""
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} {msg}{extra}\n")
     except Exception:
         pass
 

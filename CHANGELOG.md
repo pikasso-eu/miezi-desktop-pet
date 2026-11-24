@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-24 (11)
+- `error.log` wird gedrosselt: dieselbe Meldung höchstens einmal pro Minute,
+  mit Zähler der unterdrückten Wiederholungen. Vorher schrieb ein dauerhafter
+  Fehler in der Tick-Schleife alle 50 ms eine Zeile. Über 512 KB wird die
+  Datei nach `error.log.1` verschoben (Windows und macOS).
+- `settings.json` wird beim Laden geprüft: ungültige Werte für `mode`,
+  `monitor`, `size` und `char` (falscher Typ, negativer Monitor, unbekannte
+  Größe) fallen auf den Standard zurück, statt die Katze bei jedem Takt
+  scheitern zu lassen.
+
 ## 2026-11-24 (10)
 - Release-Workflow `.github/workflows/release.yml`: ein Tag (`v1.0.0`) genügt –
   GitHub-Runner bauen `windows/build.cmd` (EXE) und `macos/build.sh`
