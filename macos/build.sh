@@ -20,6 +20,9 @@ if ! "$PY" -m PyInstaller --version >/dev/null 2>&1; then
   "$PY" -m pip install pyinstaller
 fi
 
+# Programm-Icon (schwarze Katze) aus den Sprites erzeugen, nur Standardbibliothek.
+"$PY" ../tools/make_icon.py
+
 WORK="${TMPDIR:-/tmp}/miezi-build"
 "$PY" -m PyInstaller --clean --noconfirm --workpath "$WORK/build" --distpath ./dist Miezi.spec
 

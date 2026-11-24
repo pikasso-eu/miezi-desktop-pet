@@ -34,7 +34,7 @@ exe = EXE(
 app = BUNDLE(
     exe,
     name="Miezi.app",
-    icon=None,
+    icon=os.path.join(block, "..", "art", "miezi.icns"),
     bundle_identifier="de.miezi.desktoppet",
     info_plist={
         "LSUIElement": True,               # kein Dock-Symbol, kein Umschalten per Cmd-Tab

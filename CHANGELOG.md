@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-24 (9)
+- Neue Programm-Icons: `tools/make_icon.py` rendert die Sitzpose der schwarzen
+  Katze aus `common/sprites/schwarz.py` und schreibt `art/miezi.ico`
+  (Windows: 16/24/32/48 als BMP + 256 px PNG) und `art/miezi.icns`
+  (macOS: 16–1024 px, PNG-Einträge) – nur Standardbibliothek.
+- `windows/build.cmd` und `macos/build.sh` erzeugen die Icons vor jedem Build
+  neu; `Miezi.spec` bindet die `.icns` in die App ein, PyInstaller die `.ico`
+  in die EXE. (Die laufenden Fenster sind `overrideredirect`, deshalb gibt es
+  kein laufzeitabhängiges Taskleisten-Icon – das Icon gehört zur Datei.)
+
 ## 2026-11-24 (8)
 - Für GitHub vorbereitet: Git-Historie neu aufgebaut (frisches Repository
   ohne die alte Historie), MIT-Lizenz ergänzt.

@@ -11,11 +11,15 @@ if errorlevel 1 (
     python -m pip install --user pyinstaller || exit /b 1
 )
  
+rem Programm-Icon (schwarze Katze) aus den Sprites erzeugen, nur Standardbibliothek.
+python "%~dp0..\tools\make_icon.py" || exit /b 1
+ 
 rem Zwischendateien nach %TEMP%, die fertige EXE direkt in diesen Ordner.
 rem --paths: gemeinsamer Code in ..\common (Figuren stehen in common\sprites\__init__.py)
 set "WORK=%TEMP%\miezi-build"
 python -m PyInstaller --onefile --noconsole --name Miezi --clean ^
     --paths "%~dp0..\common" ^
+    --icon "%~dp0..\art\miezi.ico" ^
     --workpath "%WORK%\build" --specpath "%WORK%" --distpath "%~dp0." "%~dp0miezi.py" || exit /b 1
  
 echo.

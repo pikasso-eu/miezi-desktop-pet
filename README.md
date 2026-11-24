@@ -48,12 +48,14 @@ tools/               Werkzeuge, die Sprites erzeugen (laufen nur beim Entwickeln
   make_template.py   erzeugt die Vorlage aus der schwarzen Katze
   convert_black_cat.py  Sonderfall: KI-Sheet der schwarzen Katze -> Figur
   gen_cat_sprites.py    orange Katze aus Grundformen
+  make_icon.py          Programm-Icons aus der Sitzpose der schwarzen Katze
   sheetlib.py        gemeinsame Helfer (PNG lesen/schreiben, Farben, Figuren-Verzeichnis)
 art/
   vorlage_katze.png        Beispiel-Sheet – so soll ein Sheet aussehen
   vorlage_katze.json       Beschreibung dazu
   vorlage_katze_raster.png dieselbe Vorlage mit sichtbaren Zellen (nur zum Anschauen)
   schwarze_katze_ki_sheet.png  Original-KI-Bild der schwarzen Katze
+  miezi.ico / miezi.icns   Programm-Icons für EXE und App (von tools/make_icon.py erzeugt)
 ```
 
 So hängt es zusammen:
