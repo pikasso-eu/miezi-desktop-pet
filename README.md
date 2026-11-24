@@ -93,10 +93,11 @@ Details zu Verhalten, Vollbild-Grenze, Gatekeeper und Autostart:
 ## Fertige Programme (Releases)
 
 Fertige Builds gibt es auf der [Releases-Seite](../../releases): `Miezi.exe`
-(Windows) und `Miezi-macOS-arm64.zip` / `Miezi-macOS-x86_64.zip` (Apple
-Silicon / Intel). Eine neue Version erscheint von allein, sobald ein
-Versions-Tag gepusht wird – die GitHub-Runner bauen auf echten Windows- und
-Mac-Systemen mit denselben Skripten wie oben:
+(Windows) und `Miezi-macOS-arm64.zip` (Apple Silicon; Intel-Macs bauen nach
+der Anleitung oben – GitHub stellt keine Intel-macOS-Runner mehr bereit). Eine
+neue Version erscheint von allein, sobald ein Versions-Tag gepusht wird – die
+GitHub-Runner bauen auf echten Windows- und Mac-Systemen mit denselben
+Skripten wie oben:
 
 ```
 git tag v1.0.0
